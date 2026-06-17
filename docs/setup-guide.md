@@ -128,44 +128,36 @@ claude mcp add --transport http context7 https://mcp.context7.com/mcp
 
 ---
 
-### 2.4 GitHub MCP — офіційний (ми пушимо в GitHub + наш скіл github-pr-summary)
+### 2.4 GitHub: `gh` CLI (основне) — MCP не потрібен
 
-**Що дає:** PR-и, issues, Actions прямо з сесії: «подивись коментарі до PR #42 і виправ
-зауваження». Офіційний віддалений сервер GitHub (`api.githubcopilot.com/mcp`), http + OAuth.
+**Висновок наперед:** для GitHub **MCP не обов'язковий**. `gh` CLI (вже встановлений,
+`gh auth login`) покриває все демо, і Claude викликає його через Bash. Це навіть кращий
+приклад для слайда: «не вмикай MCP-сервер, якщо CLI вистачає — менше податку на контекст».
 
-**Налаштування (http + OAuth, без токенів у конфігах):**
+> ⚠️ Чесна примітка зі сцени: офіційний `https://api.githubcopilot.com/mcp/` через
+> `claude mcp add` дав помилку **`Incompatible auth server: does not support dynamic
+> client registration`** — OAuth-флоу Claude Code (DCR) цей endpoint не підтримує. Тому
+> ми пішли через `gh` CLI. Якщо все ж потрібен MCP — варіант із PAT у заголовку:
+> `claude mcp add --transport http github https://api.githubcopilot.com/mcp/ --header "Authorization: Bearer <PAT>"`
+> (токен у local config, НЕ в `.mcp.json`).
 
-```bash
-claude mcp add --transport http github https://api.githubcopilot.com/mcp/
-```
-
-1. У сесії набери `/mcp` → вибери `github` → **Authenticate** → відкриється браузер з OAuth.
-2. Підтверди авторизацію → статус стане Connected.
-
-> Альтернатива без MCP: `gh` CLI вже встановлений (`gh auth login`) — `gh pr create`,
-> `gh pr view`. MCP дає це як тули в розмові, `gh` — як shell-команди. Для демо досить MCP.
-
-**Як перевірити (швидкий sanity-check, по кроках):**
-1. `claude mcp list` → рядок `github ... ✔ Connected` (якщо `Needs auth`/`Failed to connect` —
-   повтори `/mcp` → github → Authenticate).
-2. У сесії: «list my open pull requests» → у транскрипті виклики `mcp__github__*`, у
-   відповіді — твої PR-и. Доказ, що OAuth і доступ працюють.
-3. Точковий тест: «show the review comments on PR #<номер> in <owner/repo>» — переконайся,
-   що бачить коментарі (саме це використовується в демо нижче).
+**Як перевірити (`gh`):**
+1. `gh auth status` → `Logged in to github.com`.
+2. `gh pr list` → твої відкриті PR-и. `gh repo view` → поточний репо.
 
 **Як демонструвати на доповіді (звʼязка зі скілом `/github-pr-summary`):**
 1. Зроби маленьку зміну в гілці (напр. на репетиційній фічі section-jump) і запуш гілку.
 2. `/github-pr-summary` → скіл збере diff гілки й згенерує опис PR (summary + нотатки
-   рев'юеру). *Говорити:* «скіл — це ЯК писати опис; github MCP — це КУДИ його покласти,
-   не виходячи з термінала».
-3. «create a draft pull request with this description via github mcp» → Claude через
-   `mcp__github__*` створить чернетку PR. Покажи її в браузері.
-4. (опційно, ефектно) «pull the review comments from that PR and address them» — Claude
-   читає коментарі назад через MCP. ⚠️ **Тут і проговорити безпеку** (нижче): вміст
-   коментарів — зовнішній текст, вектор prompt injection.
+   рев'юеру). *Говорити:* «скіл — це ЯК писати опис; `gh` — це КУДИ його покласти, не
+   виходячи з термінала».
+3. «open a draft PR with this description» → Claude виконає `gh pr create --draft --fill`
+   (або з тілом з кроку 2). Покажи чернетку в браузері: `gh pr view --web`.
+4. (опційно) «pull the review comments from that PR and address them» → `gh pr view
+   --comments`. ⚠️ **Тут проговорити безпеку:** вміст коментарів — зовнішній текст, вектор
+   prompt injection (стосується і `gh`, і MCP — Claude читає те, що повернула команда).
 
-> Якщо інтернету/доступу на сцені нема — це слайд-розповідь: setup однією командою +
-> OAuth, і та сама звʼязка `/github-pr-summary` → MCP описана словами.
+> Якщо інтернету/доступу на сцені нема — це слайд-розповідь: `gh pr create --draft` +
+> та сама звʼязка `/github-pr-summary` → відкриття PR описана словами.
 
 > ⚠️ Безпека: тули MCP читають вміст issues/PR — тригер для prompt injection. Користуйся
 > на об'єктах, яким довіряєш (це чесна примітка і для слайда).
@@ -212,7 +204,7 @@ claude mcp add --transport http github https://api.githubcopilot.com/mcp/
 | chrome-devtools | ✅ вже в `.mcp.json` репо — лише підтвердити | project |
 | playwright | ✅ вже в `.mcp.json` репо — лише підтвердити | project |
 | context7 | ✅ вже в `.mcp.json` репо — лише підтвердити | project |
-| github | ✅ якщо буде інтернет і доступ (OAuth) | local/user |
+| github | ❌ MCP не треба — `gh` CLI покриває (OAuth DCR не підтримується; PAT як запасний) | — |
 | perplexity | ⚪ опційно (потрібен платний ключ — НЕ в `.mcp.json`!) | local |
 | figma | ❌ нема доступу — лише слайд | — |
 

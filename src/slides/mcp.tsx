@@ -110,7 +110,7 @@ claude mcp add --transport http notion https://mcp.notion.com/mcp --scope projec
                   database, GitHub, Figma, your error tracker.
                 </>,
                 <>
-                  The data is <strong>live and outside the repo</strong> — open MRs, a running
+                  The data is <strong>live and outside the repo</strong> — open PRs, a running
                   page's console, today's library docs.
                 </>,
                 <>
@@ -129,6 +129,10 @@ claude mcp add --transport http notion https://mcp.notion.com/mcp --scope projec
                 <>
                   A one-off lookup → built-in <Term>WebSearch</Term>/<Term>WebFetch</Term> beats a
                   permanent server.
+                </>,
+                <>
+                  <strong>A CLI already covers it</strong> → e.g. <Term>gh</Term> for GitHub PRs.
+                  Claude calls it via Bash; no schema tax, billed only when run.
                 </>,
                 <>
                   The server is "nice to have" but unused this week → its schemas tax{" "}

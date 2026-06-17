@@ -67,4 +67,4 @@ Reference the output template in [assets/github-pr-template.md](./assets/github-
 - Create the GitHub PR summary for this branch.
 - Summarize this branch for the PR description against `origin/main`.
 - Write a PR description using the repo template and include honest testing notes.
-- Generate the PR body, then open a draft PR with it via the github MCP (or `gh pr create --draft`).
+- Generate the PR body, then open a draft PR with it: `gh pr create --draft --fill` (or the github MCP if configured).

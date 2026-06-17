@@ -185,10 +185,12 @@ MCP-схем (tool search): поки тул не потрібен, у конте
 Preferences → Enable Dev Mode MCP Server → `http://127.0.0.1:3845/mcp`; Claude читає
 реальну структуру макета (auto-layout, варіанти, токени), не скріншот.
 
-**GitHub (офіційний):** `claude mcp add --transport http github
-https://api.githubcopilot.com/mcp/` → `/mcp` → github → Authenticate (OAuth у браузері).
-Зв'язка з нашим `/github-pr-summary`: згенерував опис → створив draft PR без виходу з
-термінала. (`gh` CLI — альтернатива без MCP.)
+**GitHub:** MCP **не потрібен** — `gh` CLI (вже стоїть) покриває все. Офіційний
+`api.githubcopilot.com/mcp` через `claude mcp add` дав `Incompatible auth server: does
+not support dynamic client registration` (OAuth DCR не підтримується), тож пішли через
+`gh`. Зв'язка з нашим `/github-pr-summary`: згенерував опис → `gh pr create --draft` без
+виходу з термінала. Це й є живий приклад тези «не вмикай MCP, якщо CLI вистачає». (Якщо
+MCP таки треба — PAT у заголовку Authorization, токен у local config.)
 
 **Perplexity (Sonar):** пошук, що повертає готову відповідь з цитатами замість тонн
 HTML → економія токенів. Потрібен платний API-ключ → local scope.
