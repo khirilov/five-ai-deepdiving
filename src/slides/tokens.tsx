@@ -87,6 +87,52 @@ export const tokensSlides: DeckSlide[] = [
     ),
   },
   {
+    id: "tokens-model-effort",
+    section: "Tokens",
+    content: (
+      <>
+        <SlideTitle kicker="tokens">
+          Two dials that change the bill: <em>model</em> and <em>effort</em>
+        </SlideTitle>
+        <Cols>
+          <Col title="/model — who does the work">
+            <FieldTable
+              headers={["Option", "What it does"]}
+              rows={[
+                { field: "default", meaning: "Opus, then auto-switches to Sonnet past ~50% usage." },
+                {
+                  field: "opusplan",
+                  meaning: "Opus thinks in Plan Mode → Sonnet writes the code. Reasoning where it matters, cheap execution.",
+                },
+                { field: "sonnet / haiku", meaning: "Pin a cheaper model for a whole session of routine work." },
+              ]}
+            />
+            <Note>
+              <Term>/model opusplan</Term> is the one-command answer to "use the smart model only
+              where it pays".
+            </Note>
+          </Col>
+          <Col title="effort — how hard it thinks">
+            <FieldTable
+              headers={["Level", "When"]}
+              rows={[
+                { field: "low", meaning: "Subagents, routine, latency-sensitive." },
+                { field: "medium", meaning: "Cost-sensitive, simple tasks." },
+                { field: "high", meaning: "Default in Claude Code; most real work." },
+                { field: "xhigh", meaning: "Best for coding / agentic loops." },
+                { field: "max", meaning: "Correctness > cost; can overthink." },
+              ]}
+            />
+            <Note>
+              Set per skill/agent in frontmatter (<Term>effort: low</Term>) — or globally. Lower
+              effort = fewer tokens, terser, fewer tool calls.
+            </Note>
+          </Col>
+        </Cols>
+      </>
+    ),
+  },
+  {
     id: "tokens-caveman",
     section: "Tokens",
     content: (

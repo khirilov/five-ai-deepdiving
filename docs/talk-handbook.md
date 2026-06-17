@@ -141,7 +141,13 @@ settings.json потрібен рестарт сесії.
 2. `/clear` між незалежними задачами — найнедооціненіша команда.
 3. `/compact` свідомо на довгих сесіях (авто-microcompact теж є, але керований кращий).
 4. Дешеві моделі під рутину: `model: haiku` у субагентах (+ `maxTurns`).
-5. `effort: low/medium` для простих задач.
+   На рівні сесії — `/model`: `default` (Opus → Sonnet після ~50% usage),
+   **`opusplan`** (Opus думає в Plan Mode → Sonnet пише код — розумна модель лише
+   там, де платить), або `sonnet`/`haiku` напряму. Слайд про це — Tokens (#29).
+5. `effort` — глибина «думання» і витрати: `low` (субагенти/рутина) · `medium`
+   (прості, cost-sensitive) · `high` (дефолт Claude Code, більшість роботи) ·
+   `xhigh` (кодинг/агентика) · `max` (correctness > cost, може перемудрити).
+   Ставиться у frontmatter скіла/агента (`effort: low`) або глобально.
 6. Вимкнути невикористовувані MCP (найбільший прихований податок).
 7. Процедури з CLAUDE.md → у скіли (description висить, тіло — на вимогу).
 8. **caveman** (плагін): ріже балачки в output, −65% у середньому (розкид 22–87%),
@@ -266,7 +272,7 @@ Explanatory (є ще Proactive). Вибір зберігається в `.claude
 
 ## 4. Сценарій: слайд ↔ демо (з запасними варіантами)
 
-> **Дека = 42 слайди** (оновлено: додано 7 нових — позначені 🆕). Нумерація `#/N` нижче точна.
+> **Дека = 43 слайди** (оновлено: додано 8 нових — позначені 🆕). Нумерація `#/N` нижче точна.
 
 | Слайди | Блок | Демо | Команди |
 | --- | --- | --- | --- |
@@ -283,25 +289,26 @@ Explanatory (є ще Proactive). Вибір зберігається в `.claude
 | 24 | хуки репо | ⭐ ЖИВЕ: `/hooks`; попросити `git push` → deny; звук на Stop | `/hooks` |
 | 25–26 | хук у скілі (tdd) | показати frontmatter tdd | — |
 | 27–28 | Токени: куди йдуть + вбудована механіка | ⭐ `/context` наживо (видно MCP-податок!) | `/context` |
-| 29 | caveman | ⭐ одне питання до/після | `/caveman full` |
-| 30 | чек-лист економії | — | — |
-| 31–32 | MCP: огляд + `.mcp.json` | показати файл + `/mcp` | `/mcp` |
-| 🆕 33 | коли MCP / коли НЕ MCP (default = off) | — | — |
-| 🆕 34 | детальна ціна запиту з MCP (схеми/кеш/deferred/виклик) | ⭐ звʼязати з `/context`: «оце і є та вага» | `/context` |
-| 35 | DevTools vs Playwright | ⭐ опційно: `/browser-reviewer` АБО «open localhost:5173 and check console» (потрібен Node ≥ 20.19, див. setup §2.1) | — |
-| 36–37 | Figma, Perplexity | розповідь | — |
-| 🆕 38 | плагіни як механізм (frontend-design, typescript-lsp, superpowers) | ⭐ опційно: `/plugin` (меню) або frontend-design до/після | `/plugin` |
-| 39 | старт завтра | — | — |
-| 40 | learning machine | ⭐ опційно: `/config`→Output style→Learning + дрібна фіча → TODO(human) | `/config` |
-| 🆕 41 | learn-anything loop (як саме вчитись) | — | — |
-| 42 | Questions | — | — |
+| 🆕 29 | model & effort як важелі ціни (opusplan, effort-рівні) | проговорити `/model opusplan` | `/model` |
+| 30 | caveman | ⭐ одне питання до/після | `/caveman full` |
+| 31 | чек-лист економії | — | — |
+| 32–33 | MCP: огляд + `.mcp.json` | показати файл + `/mcp` | `/mcp` |
+| 🆕 34 | коли MCP / коли НЕ MCP (default = off; gh замість github MCP) | — | — |
+| 🆕 35 | детальна ціна запиту з MCP (схеми/кеш/deferred/виклик) | ⭐ звʼязати з `/context`: «оце і є та вага» | `/context` |
+| 36 | DevTools vs Playwright | ⭐ опційно: `/browser-reviewer` АБО «open localhost:5173 and check console» (потрібен Node ≥ 20.19, див. setup §2.1) | — |
+| 37–38 | Figma, Perplexity | розповідь | — |
+| 🆕 39 | плагіни як механізм (frontend-design, typescript-lsp, superpowers) | ⭐ опційно: `/plugin` (меню) або frontend-design до/після | `/plugin` |
+| 40 | старт завтра | — | — |
+| 41 | learning machine | ⭐ опційно: `/config`→Output style→Learning + дрібна фіча → TODO(human) | `/config` |
+| 🆕 42 | learn-anything loop (як саме вчитись) | — | — |
+| 43 | Questions | — | — |
 
 **Бюджет часу (40 хв):** інтро 3 + скіли 10 (з deck-stats) + агенти 8 (з deck-review) +
-хуки 6 + токени 5 + MCP 5 + фінал 3. Нові слайди (3, 14, 15, 33, 34, 38, 41) — короткі
+хуки 6 + токени 5 + MCP 5 + фінал 3. Нові слайди (3, 14, 15, 29, 34, 35, 39, 42) — короткі
 концептуальні, по ~30–45 с кожен; за потреби кілька можна прогорнути швидко.
-**Якщо горить час, ріжеться в такому порядку:** browser-reviewer (слайд 35) → learning
-live (40, лишити розповідь) → caveman live (29, лишити слайд) → deck-review --solo
-(показати тільки дефолтний) → plugins live (38, лишити слайд).
+**Якщо горить час, ріжеться в такому порядку:** browser-reviewer (слайд 36) → learning
+live (41, лишити розповідь) → caveman live (30, лишити слайд) → deck-review --solo
+(показати тільки дефолтний) → plugins live (39, лишити слайд).
 **Запасне демо:** якщо deck-review піде не так — `/mr-reviewer` на незакомічених
 змінах (він сам збере diff) теж виглядає ефектно і займає ~хвилину.
 
@@ -355,6 +362,7 @@ live (40, лишити розповідь) → caveman live (29, лишити с
 /mcp             # статус MCP, OAuth, список тулів
 /plugin          # меню плагінів
 /config          # → Output style: Default | Explanatory | Learning | Proactive
+/model           # default | opusplan (Opus думає / Sonnet пише) | sonnet | haiku
 /usage           # ліміти/використання
 
 # наші демо
