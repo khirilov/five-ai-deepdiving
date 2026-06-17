@@ -1,19 +1,19 @@
 ---
-name: gitlab-mr-summary
-description: "Generate a GitLab merge request summary from the current branch diff. Use when writing or updating an MR description, summarizing implemented changes or preparing reviewer notes for this repository."
+name: github-pr-summary
+description: "Generate a GitHub pull request summary from the current branch diff. Use when writing or updating a PR description, summarizing implemented changes or preparing reviewer notes for this repository."
 argument-hint: "[optional target branch or commit range]"
 ---
 
-# GitLab MR Summary
+# GitHub PR Summary
 
-Use this skill to produce a concise MR description grounded in the actual branch delta, not memory or the current editor tab.
+Use this skill to produce a concise PR description grounded in the actual branch delta, not memory or the current editor tab.
 
-Reference the output template in [assets/gitlab-mr-template.md](./assets/gitlab-mr-template.md).
+Reference the output template in [assets/github-pr-template.md](./assets/github-pr-template.md).
 
 ## When to Use
 
-- The user wants a merge request summary for GitLab.
-- The user wants text for the MR description based on branch changes.
+- The user wants a pull request summary for GitHub.
+- The user wants text for the PR description based on branch changes.
 - The user wants a reusable summary of what changed, how it was tested, and what a reviewer should know.
 
 ## Procedure
@@ -45,7 +45,7 @@ Reference the output template in [assets/gitlab-mr-template.md](./assets/gitlab-
 
 7. Validate the output against this quality bar.
    The text is grounded in git evidence.
-   The summary is concise and readable in an MR description.
+   The summary is concise and readable in a PR description.
    The result follows the requested schema exactly.
 
 ## Decision Points
@@ -60,10 +60,11 @@ Reference the output template in [assets/gitlab-mr-template.md](./assets/gitlab-
 - Match the section headings and checkbox structure requested by the user.
 - Keep the tone factual and reviewer-oriented.
 - Do not invent manual verification, deployment notes, or follow-up work.
-- Wrap the output in a code block (raw ```markdown) so that it can be easily copied into the MR description.
+- Wrap the output in a code block (raw ```markdown) so that it can be easily copied into the PR description.
 
 ## Example Prompts
 
-- Create the GitLab MR summary for this branch.
-- Summarize this branch for the MR description against `origin/main`.
-- Write an MR description using the repo template and include honest testing notes.
+- Create the GitHub PR summary for this branch.
+- Summarize this branch for the PR description against `origin/main`.
+- Write a PR description using the repo template and include honest testing notes.
+- Generate the PR body, then open a draft PR with it via the github MCP (or `gh pr create --draft`).

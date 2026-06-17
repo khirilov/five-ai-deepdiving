@@ -107,7 +107,7 @@ claude mcp add --transport http notion https://mcp.notion.com/mcp --scope projec
               items={[
                 <>
                   Claude must <strong>read or drive an external system</strong>: a browser, a
-                  database, GitLab, Figma, your error tracker.
+                  database, GitHub, Figma, your error tracker.
                 </>,
                 <>
                   The data is <strong>live and outside the repo</strong> — open MRs, a running

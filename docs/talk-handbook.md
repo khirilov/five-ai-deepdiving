@@ -169,7 +169,7 @@ MCP-схем (tool search): поки тул не потрібен, у конте
 підтягується при першому використанні; 3) сам виклик тула коштує окремо: виклик +
 результат (снепшот сторінки від Playwright може бути кілька тисяч токенів). Висновок
 незмінний: реальну вагу дивись у `/context`, зайве вимикай. Тули, що читають
-зовнішній контент (GitLab issues!) — вектор prompt injection: користуйся на об'єктах,
+зовнішній контент (GitHub issues/PR!) — вектор prompt injection: користуйся на об'єктах,
 яким довіряєш.
 
 **Наш `.mcp.json`:** chrome-devtools + playwright + context7 (без секретів; ключі —
@@ -185,9 +185,10 @@ MCP-схем (tool search): поки тул не потрібен, у конте
 Preferences → Enable Dev Mode MCP Server → `http://127.0.0.1:3845/mcp`; Claude читає
 реальну структуру макета (auto-layout, варіанти, токени), не скріншот.
 
-**GitLab (офіційний):** `claude mcp add --transport http gitlab
-https://gitlab.com/api/v4/mcp` → `/mcp` → OAuth у браузері. Зв'язка з нашим
-`/gitlab-mr-summary`: згенерував опис → створив draft MR без виходу з терміналу.
+**GitHub (офіційний):** `claude mcp add --transport http github
+https://api.githubcopilot.com/mcp/` → `/mcp` → github → Authenticate (OAuth у браузері).
+Зв'язка з нашим `/github-pr-summary`: згенерував опис → створив draft PR без виходу з
+термінала. (`gh` CLI — альтернатива без MCP.)
 
 **Perplexity (Sonar):** пошук, що повертає готову відповідь з цитатами замість тонн
 HTML → економія токенів. Потрібен платний API-ключ → local scope.

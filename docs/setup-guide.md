@@ -11,7 +11,7 @@
 | Механізм | Що це | Де живе | Коли обирати |
 | --- | --- | --- | --- |
 | **Скіли / команди / агенти / хуки** | Твої власні інструкції та автоматика | `.claude/` у репо (або `~/.claude/` глобально) | Знання і процеси ТВОЄЇ команди |
-| **MCP-сервер** | Міст до зовнішнього інструмента (браузер, GitLab, доки) | `claude mcp add` → `~/.claude.json` або `.mcp.json` | Claude має ЧИТАТИ/КЕРУВАТИ зовнішньою системою |
+| **MCP-сервер** | Міст до зовнішнього інструмента (браузер, GitHub, доки) | `claude mcp add` → `~/.claude.json` або `.mcp.json` | Claude має ЧИТАТИ/КЕРУВАТИ зовнішньою системою |
 | **Плагін** | Пакет «скіли + агенти + хуки + MCP» від когось іншого, ставиться однією командою | `~/.claude/plugins/` | Готове чуже рішення, не хочеш писати сам |
 
 Важливо для розуміння: плагін — це формат **дистрибуції**. Всередині плагіна ті самі
@@ -128,46 +128,46 @@ claude mcp add --transport http context7 https://mcp.context7.com/mcp
 
 ---
 
-### 2.4 GitLab MCP — офіційний (у вас GitLab + наш скіл gitlab-mr-summary)
+### 2.4 GitHub MCP — офіційний (ми пушимо в GitHub + наш скіл github-pr-summary)
 
-**Що дає:** MR-и, issues, пайплайни прямо з сесії: «подивись коментарі до MR !42 і
-виправ зауваження». Офіційний сервер вбудований у GitLab (16.x+ на gitlab.com; на
-self-hosted — перевір версію/фіче-флаг у адміна).
+**Що дає:** PR-и, issues, Actions прямо з сесії: «подивись коментарі до PR #42 і виправ
+зауваження». Офіційний віддалений сервер GitHub (`api.githubcopilot.com/mcp`), http + OAuth.
 
 **Налаштування (http + OAuth, без токенів у конфігах):**
 
 ```bash
-# gitlab.com:
-claude mcp add --transport http gitlab https://gitlab.com/api/v4/mcp
-# self-hosted:
-claude mcp add --transport http gitlab https://<твій-gitlab>/api/v4/mcp
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/
 ```
 
-1. У сесії набери `/mcp` → вибери `gitlab` → відкриється браузер з OAuth-сторінкою.
+1. У сесії набери `/mcp` → вибери `github` → **Authenticate** → відкриється браузер з OAuth.
 2. Підтверди авторизацію → статус стане Connected.
 
+> Альтернатива без MCP: `gh` CLI вже встановлений (`gh auth login`) — `gh pr create`,
+> `gh pr view`. MCP дає це як тули в розмові, `gh` — як shell-команди. Для демо досить MCP.
+
 **Як перевірити (швидкий sanity-check, по кроках):**
-1. `claude mcp list` → рядок `gitlab ... ✔ Connected` (якщо `Needs auth` — повтори `/mcp` → login).
-2. У сесії: «list my open merge requests» → у транскрипті з'являться виклики
-   `mcp__gitlab__*`, у відповіді — твої MR-и. Це доказ, що OAuth і доступ працюють.
-3. Точковий тест: «show the discussions on MR !<номер> in <group/project>» — переконайся,
+1. `claude mcp list` → рядок `github ... ✔ Connected` (якщо `Needs auth`/`Failed to connect` —
+   повтори `/mcp` → github → Authenticate).
+2. У сесії: «list my open pull requests» → у транскрипті виклики `mcp__github__*`, у
+   відповіді — твої PR-и. Доказ, що OAuth і доступ працюють.
+3. Точковий тест: «show the review comments on PR #<номер> in <owner/repo>» — переконайся,
    що бачить коментарі (саме це використовується в демо нижче).
 
-**Як демонструвати на доповіді (звʼязка зі скілом `/gitlab-mr-summary`):**
+**Як демонструвати на доповіді (звʼязка зі скілом `/github-pr-summary`):**
 1. Зроби маленьку зміну в гілці (напр. на репетиційній фічі section-jump) і запуш гілку.
-2. `/gitlab-mr-summary` → скіл збере diff гілки й згенерує опис MR (заголовок + summary +
-   нотатки рев'юеру). *Говорити:* «скіл — це ЯК писати опис; gitlab MCP — це КУДИ його
-   покласти, не виходячи з термінала».
-3. «create a draft merge request with this description via gitlab mcp» → Claude через
-   `mcp__gitlab__*` створить чернетку MR. Покажи її в браузері.
-4. (опційно, ефектно) «pull the review comments from that MR and address them» — Claude
+2. `/github-pr-summary` → скіл збере diff гілки й згенерує опис PR (summary + нотатки
+   рев'юеру). *Говорити:* «скіл — це ЯК писати опис; github MCP — це КУДИ його покласти,
+   не виходячи з термінала».
+3. «create a draft pull request with this description via github mcp» → Claude через
+   `mcp__github__*` створить чернетку PR. Покажи її в браузері.
+4. (опційно, ефектно) «pull the review comments from that PR and address them» — Claude
    читає коментарі назад через MCP. ⚠️ **Тут і проговорити безпеку** (нижче): вміст
    коментарів — зовнішній текст, вектор prompt injection.
 
 > Якщо інтернету/доступу на сцені нема — це слайд-розповідь: setup однією командою +
-> OAuth, і та сама звʼязка `/gitlab-mr-summary` → MCP описана словами.
+> OAuth, і та сама звʼязка `/github-pr-summary` → MCP описана словами.
 
-> ⚠️ Безпека: тули MCP читають вміст issues/MR — тригер для prompt injection. Користуйся
+> ⚠️ Безпека: тули MCP читають вміст issues/PR — тригер для prompt injection. Користуйся
 > на об'єктах, яким довіряєш (це чесна примітка і для слайда).
 
 ---
@@ -212,7 +212,7 @@ claude mcp add --transport http gitlab https://<твій-gitlab>/api/v4/mcp
 | chrome-devtools | ✅ вже в `.mcp.json` репо — лише підтвердити | project |
 | playwright | ✅ вже в `.mcp.json` репо — лише підтвердити | project |
 | context7 | ✅ вже в `.mcp.json` репо — лише підтвердити | project |
-| gitlab | ✅ якщо буде інтернет і доступ | user |
+| github | ✅ якщо буде інтернет і доступ (OAuth) | local/user |
 | perplexity | ⚪ опційно (потрібен платний ключ — НЕ в `.mcp.json`!) | local |
 | figma | ❌ нема доступу — лише слайд | — |
 

@@ -390,7 +390,7 @@ every slides file) happens in a forked subagent context...`}
                   A always-true fact or convention → that's <Term>CLAUDE.md</Term>.
                 </>,
                 <>
-                  You need an external system (browser, GitLab) → that's <Term>MCP</Term>.
+                  You need an external system (browser, GitHub) → that's <Term>MCP</Term>.
                 </>,
                 <>
                   You need a guarantee, not a request → that's a <Term>hook</Term>.
