@@ -178,6 +178,60 @@ claude plugin install caveman@caveman
     ),
   },
   {
+    id: "tokens-caching",
+    section: "Tokens",
+    content: (
+      <>
+        <SlideTitle kicker="tokens">
+          The biggest underused lever: <em>prompt caching</em>
+        </SlideTitle>
+        <Bullets
+          items={[
+            <>
+              The model is stateless — your whole prefix (system prompt, tools, CLAUDE.md,
+              history) is re-sent every turn. <strong>Caching makes that re-send ~10× cheaper</strong>
+              {" "}— but only if the prefix is byte-for-byte identical.
+            </>,
+            <>
+              It's a <strong>prefix match</strong>: one changed byte invalidates everything after
+              it. Render order is <Term>tools → system → messages</Term>, so volatile content must
+              go <em>last</em>.
+            </>,
+          ]}
+        />
+        <Cols>
+          <Col title="🧊 Keeps the cache (cheap)">
+            <Bullets
+              items={[
+                <>A frozen CLAUDE.md and a stable tool set.</>,
+                <>Appending to the conversation — old turns stay cached.</>,
+                <>Putting today's date / IDs at the end, not the top.</>,
+              ]}
+            />
+          </Col>
+          <Col title="🔥 Breaks the cache (full price)">
+            <Bullets
+              items={[
+                <>
+                  Editing <Term>CLAUDE.md</Term> or a skill mid-session → the whole history
+                  re-bills uncached.
+                </>,
+                <>Adding/removing an MCP server or switching model → full rebuild.</>,
+                <>
+                  A <Term>!`date`</Term> or session id near the top of the prompt.
+                </>,
+              ]}
+            />
+          </Col>
+        </Cols>
+        <Note>
+          This is <em>why</em> a bloated CLAUDE.md is a tax: it's not just big, it sits at the
+          front of the cached prefix. Verify hits in <Term>/context</Term>.
+        </Note>
+      </>
+    ),
+  },
+  {
     id: "tokens-checklist",
     section: "Tokens",
     content: (
