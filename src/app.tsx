@@ -87,6 +87,9 @@ export function App() {
       <footer className="deck-footer">
         <span className="deck-section">{slide.section}</span>
         <span className="deck-controls">
+          <button type="button" onClick={() => goTo(1)} aria-label="Restart deck">
+            ⤒
+          </button>
           <button type="button" onClick={() => goTo(index - 1)} aria-label="Previous slide">
             ←
           </button>
