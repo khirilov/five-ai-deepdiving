@@ -550,6 +550,92 @@ claude plugin install caveman@caveman
     },
   },
   {
+    id: "tokens-growing-tail",
+    section: "Tokens",
+    content: {
+      en: (
+        <>
+          <SlideTitle kicker="tokens">
+            What each <em>next</em> request actually costs
+          </SlideTitle>
+          <Cols>
+            <Col title="One default chat · 25k prefix · ~1k per turn">
+              <FieldTable
+                headers={["Turn", "Fresh ($5/1M) · Cached ($0.5/1M)"]}
+                rows={[
+                  { field: "#1", meaning: "25 200 fresh (write 6.25×) · 0 cached" },
+                  { field: "#2", meaning: "~1 200 fresh · 25 200 cached" },
+                  { field: "#10", meaning: "~1 200 fresh · 34 200 cached" },
+                  { field: "#20", meaning: "~1 200 fresh · 44 200 cached" },
+                ]}
+              />
+              <Note>
+                Fresh stays tiny (just the new tail). What grows is the <strong>cached read</strong>:
+                prefix + all prior history. Turn #20 ≈ <strong>$0.048</strong> total. Without caching
+                it'd be ~10× worse. <Term>/clear</Term> drops the tail back to the 25k prefix.
+              </Note>
+            </Col>
+            <Col title="Cheaper model = cheaper everything">
+              <FieldTable
+                headers={["Model · per 1M", "in / out / cache-read"]}
+                rows={[
+                  { field: "Opus 4.8", meaning: "$5 / $25 / $0.50" },
+                  { field: "Sonnet 4.6", meaning: "$3 / $15 / $0.30" },
+                  { field: "Haiku 4.5", meaning: "$1 / $5 / $0.10" },
+                ]}
+              />
+              <Note>
+                This is why subagents on <Term>sonnet</Term>/<Term>haiku</Term> pay off: the same
+                40k-token search costs <strong>5×</strong> less on Haiku — and the cost lands in the
+                subagent's context, not yours.
+              </Note>
+            </Col>
+          </Cols>
+        </>
+      ),
+      uk: (
+        <>
+          <SlideTitle kicker="токени">
+            Скільки реально коштує кожен <em>наступний</em> запит
+          </SlideTitle>
+          <Cols>
+            <Col title="Один дефолтний чат · 25k префікс · ~1k за хід">
+              <FieldTable
+                headers={["Хід", "Свіже ($5/1M) · Кеш ($0.5/1M)"]}
+                rows={[
+                  { field: "№1", meaning: "25 200 свіжих (write 6.25×) · 0 кешу" },
+                  { field: "№2", meaning: "~1 200 свіжих · 25 200 кешу" },
+                  { field: "№10", meaning: "~1 200 свіжих · 34 200 кешу" },
+                  { field: "№20", meaning: "~1 200 свіжих · 44 200 кешу" },
+                ]}
+              />
+              <Note>
+                Свіже лишається крихітним (лише новий хвіст). Росте <strong>кешоване читання</strong>:
+                префікс + уся минула історія. Хід №20 ≈ <strong>$0.048</strong> разом. Без кешу було б
+                ~10× гірше. <Term>/clear</Term> скидає хвіст назад до 25k префікса.
+              </Note>
+            </Col>
+            <Col title="Дешевша модель = дешевше все">
+              <FieldTable
+                headers={["Модель · за 1M", "in / out / cache-read"]}
+                rows={[
+                  { field: "Opus 4.8", meaning: "$5 / $25 / $0.50" },
+                  { field: "Sonnet 4.6", meaning: "$3 / $15 / $0.30" },
+                  { field: "Haiku 4.5", meaning: "$1 / $5 / $0.10" },
+                ]}
+              />
+              <Note>
+                Ось чому субагенти на <Term>sonnet</Term>/<Term>haiku</Term> окупаються: той самий
+                пошук на 40k токенів коштує <strong>у 5×</strong> менше на Haiku — і вартість осідає
+                в контексті субагента, не в твоєму.
+              </Note>
+            </Col>
+          </Cols>
+        </>
+      ),
+    },
+  },
+  {
     id: "tokens-checklist",
     section: "Tokens",
     content: {

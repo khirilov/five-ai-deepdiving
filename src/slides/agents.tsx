@@ -308,6 +308,12 @@ model: sonnet                        # cheaper than opus, enough for an audit
               <>The main conversation receives one final report.</>,
             ]}
           />
+          <Note>
+            <strong>Why this is cheaper, not more expensive:</strong> a 40k-token search done in the
+            main chat leaves all 40k of file dumps in your context <em>forever</em> — you re-read it
+            every later turn. In a subagent the 40k is spent <em>there</em> and only the 50-token
+            conclusion comes back. Same one-time cost; the difference is what stays behind.
+          </Note>
         </>
       ),
       uk: (
@@ -335,6 +341,12 @@ model: sonnet                        # дешевше за opus, для ауди
               <>У головну розмову повертається один підсумковий звіт.</>,
             ]}
           />
+          <Note>
+            <strong>Чому це дешевше, а не дорожче:</strong> пошук на 40k токенів у головному чаті
+            лишає всі ці 40k вмісту файлів у твоєму контексті <em>назавжди</em> — ти перечитуєш їх
+            кожен наступний хід. У субагенті 40k витрачаються <em>там</em>, а назад повертається лише
+            висновок на 50 токенів. Разова вартість та сама; різниця — що лишається після.
+          </Note>
         </>
       ),
     },
