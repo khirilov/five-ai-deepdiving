@@ -493,6 +493,116 @@ user-invocable: false
     },
   },
   {
+    id: "skills-showcase",
+    section: "Skills",
+    content: {
+      en: (
+        <>
+          <SlideTitle kicker="live demo">All the knobs in one real file</SlideTitle>
+          <Cols>
+            <Col title="frontmatter-showcase/SKILL.md — the frontmatter">
+              <CodeBlock
+                lang="yaml"
+                code={`---
+name: frontmatter-showcase
+description: "Read-only repo-hygiene report..."
+argument-hint: "[area]"
+arguments: [area]            # → $area in the body
+disable-model-invocation: false
+user-invocable: true
+paths:                       # auto-activates only for sources
+  - "src/**/*.{ts,tsx}"
+allowed-tools: Read, Glob, Grep, Bash(git log:*)
+disallowed-tools: Edit, Write, AskUserQuestion
+model: haiku                 # routine scan → cheap
+effort: low                  # terse, few tool calls
+hooks:                       # active ONLY while this skill runs
+  PreToolUse:
+    - matcher: "Grep"
+      hooks: [{ type: command, command: "..." }]
+---`}
+              />
+            </Col>
+            <Col title="Why one showcase skill">
+              <Bullets
+                items={[
+                  <>
+                    Every field the last three slides listed — in one real, runnable file. Open it
+                    on stage and point.
+                  </>,
+                  <>
+                    The <strong>safety boundary is the tools, not the prose</strong>: even if the
+                    body asked to edit, <Term>disallowed-tools</Term> removed Edit/Write.
+                  </>,
+                  <>
+                    <Term>model: haiku</Term> + <Term>effort: low</Term> make a routine scan cheap —
+                    the cost knobs from the tokens section, applied.
+                  </>,
+                  <>
+                    Run it: <Term>/frontmatter-showcase src/slides</Term> → a read-only hygiene
+                    report, nothing written.
+                  </>,
+                ]}
+              />
+            </Col>
+          </Cols>
+        </>
+      ),
+      uk: (
+        <>
+          <SlideTitle kicker="живе демо">Усі ручки в одному реальному файлі</SlideTitle>
+          <Cols>
+            <Col title="frontmatter-showcase/SKILL.md — frontmatter">
+              <CodeBlock
+                lang="yaml"
+                code={`---
+name: frontmatter-showcase
+description: "Read-only repo-hygiene report..."
+argument-hint: "[area]"
+arguments: [area]            # → $area у тілі
+disable-model-invocation: false
+user-invocable: true
+paths:                       # авто-активація лише для сорсів
+  - "src/**/*.{ts,tsx}"
+allowed-tools: Read, Glob, Grep, Bash(git log:*)
+disallowed-tools: Edit, Write, AskUserQuestion
+model: haiku                 # рутинний скан → дешево
+effort: low                  # стисло, мало викликів тулів
+hooks:                       # діє ТІЛЬКИ поки скіл активний
+  PreToolUse:
+    - matcher: "Grep"
+      hooks: [{ type: command, command: "..." }]
+---`}
+              />
+            </Col>
+            <Col title="Навіщо один showcase-скіл">
+              <Bullets
+                items={[
+                  <>
+                    Кожне поле з трьох попередніх слайдів — в одному реальному, робочому файлі.
+                    Відкрий наживо і показуй пальцем.
+                  </>,
+                  <>
+                    <strong>Межа безпеки — це тули, а не текст</strong>: навіть якби тіло просило
+                    редагувати, <Term>disallowed-tools</Term> прибрав Edit/Write.
+                  </>,
+                  <>
+                    <Term>model: haiku</Term> + <Term>effort: low</Term> роблять рутинний скан
+                    дешевим — ручки вартості з токен-секції в дії.
+                  </>,
+                  <>
+                    Запуск: <Term>/frontmatter-showcase src/slides</Term> → read-only звіт гігієни,
+                    нічого не записано.
+                  </>,
+                ]}
+              />
+            </Col>
+          </Cols>
+        </>
+      ),
+    },
+  },
+  {
     id: "skills-substitutions",
     section: "Skills",
     content: {

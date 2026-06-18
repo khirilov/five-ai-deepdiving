@@ -1,0 +1,72 @@
+// Example hooks — copy what you need into `.claude/settings.json`.
+//
+// These are NOT active. This repo has no linter/test runner on purpose
+// (see AGENTS.md), so wiring a real `lint`/`test` hook here would fail on
+// every edit. The ONE that IS live in settings.json is the typecheck hook —
+// the others below show the exact shape so you can drop them into a project
+// that does have those scripts.
+//
+// Demo on stage: open settings.json (typecheck runs for real), then open
+// THIS file and say "same shape — here's how you'd add test and lint".
+{
+  "hooks": {
+    // --- 1. Typecheck after every code edit (this one IS live in settings.json) ---
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm --silent typecheck",
+            "async": true,
+            "statusMessage": "typecheck after edit…"
+          }
+        ]
+      },
+
+      // --- 2. Lint after edits to source files only ---
+      // Exit non-zero (e.g. eslint finds errors) → stderr is fed back to Claude
+      // and it fixes the lint before continuing. Scope with the matcher.
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm --silent lint --max-warnings=0",
+            "statusMessage": "lint…"
+          }
+        ]
+      },
+
+      // --- 3. Run the test suite after edits ---
+      // Heavier; usually you'd scope it (only when test files or src change),
+      // or run it async so it doesn't block the turn. Exit 2 = block + report.
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm --silent test --run --bail",
+            "async": true,
+            "statusMessage": "tests…"
+          }
+        ]
+      }
+    ],
+
+    // --- 4. Final gate when Claude stops: full typecheck + tests must be green ---
+    // A Stop hook is the "before you call it done" check. Exit non-zero here
+    // keeps the turn open so Claude addresses the failure.
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm --silent typecheck && pnpm --silent test --run",
+            "statusMessage": "final check…"
+          }
+        ]
+      }
+    ]
+  }
+}

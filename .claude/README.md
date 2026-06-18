@@ -40,6 +40,13 @@ slides (the React app in `src/`) talk about is actually configured here and show
 - **`/mantine-css-auditor`** — the same fan-out pattern from a real work project:
   orchestrator → N read-only workers → reconciler (workers are `mantine-css-audit-worker`
   subagents; no Mantine here, so this one is talk-through, not live).
+- **`/frontmatter-showcase [area]`** — the "all knobs in one file" reference: a real
+  read-only repo-hygiene report whose frontmatter exercises every field the slides list —
+  `paths`, `allowed-tools`, `disallowed-tools`, `model: haiku`, `effort: low`, a
+  skill-scoped `hooks` block, `arguments`/`argument-hint`, `disable-model-invocation`,
+  `user-invocable`. Open it on stage and point at each field. Example hooks for
+  `test`/`lint`/`typecheck` (not active here — no test runner by design) live in
+  `.claude/hooks-examples.jsonc`.
 
 ## Why some things are commands and others are subagents
 
