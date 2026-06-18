@@ -40,13 +40,16 @@ Use the `TodoWrite` tool to track progress across phases. Create a todo list at 
 with one item per phase and update it as you go.
 
 The `grill-me`, `design-an-interface`, and `tdd` phases correspond to the project skills of
-the same name (in `.claude/skills/`). Invoke each skill when you enter its phase.
+the same name (in `.claude/skills/`). When you enter each phase, **explicitly invoke that
+skill via the Skill tool** (e.g. call the `grill-me` skill) — do not merely imitate it from
+memory. The whole point of feature-forge is that it composes the real project skills.
 
 ## Phase 1: DISCOVER (grill-me)
 
 **Goal:** Reach a complete, unambiguous specification for the feature.
 
-Run a **grill-me** skill session, starting from the feature description above:
+**Invoke the `grill-me` skill now** (via the Skill tool), seeding it with the feature
+description above. Run it as a real grill-me session:
 
 - Use the `AskUserQuestion` tool for DISCOVER-phase user interviews whenever you need user input.
 - Ask one focused question per tool call while drilling into unresolved decisions. Prefer

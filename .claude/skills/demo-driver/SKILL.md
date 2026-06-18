@@ -37,11 +37,15 @@ presenter runs it on stage and keeps control.
 
 ## The script — 7 steps
 
-### Step 1 — A skill is just markdown
+### Step 1 — A skill is just markdown, and here's what it does
 - **Slide:** `#/6` (skills · what)
-- **Do:** open `.claude/skills/grill-me/SKILL.md` in the editor.
+- **Do first:** open `.claude/skills/grill-me/SKILL.md` in the editor.
 - **Say:** "A skill isn't magic — it's a markdown file. Nine lines. Frontmatter plus a body."
-- **Watch for:** how small it is. Demystifies the whole section.
+- **Then type (live):** `/grill-me adding a dark-mode toggle to the deck`
+- **Say:** "And here it is doing its thing — it interrogates me one decision at a time until
+  the design is unambiguous. That's the body of those nine lines, running."
+- **Watch for:** the file is tiny; the behavior is real. Format first, behavior second.
+- **After 2–3 questions:** stop it ("that's enough, thanks") and move on — no need to finish.
 
 ### Step 2 — Progressive disclosure + every frontmatter knob
 - **Slide:** `#/11` (skills · all the knobs in one file)
@@ -53,17 +57,27 @@ presenter runs it on stage and keeps control.
 - **Watch for:** in `/context`, the skill body is present only now, not before. Open the
   file and point at each frontmatter field.
 
-### Step 3 — context: fork (where tokens are saved)
-- **Slide:** the tokens section (`context: fork` lives in `deck-stats`)
-- **Type:** `/context`  → note the number → `/deck-stats` → `/context` again
-- **Say:** "deck-stats analyzes all 47 slides in a FORKED context. Only the stats table
-  comes back. The file dumps never touched my main window."
-- **Watch for:** main-context size barely moves between the two `/context` calls. That's
-  the whole point of subagents/forks, shown in one number.
+### Step 3 — context: fork (a lot of work, none of the weight)
+- **Slide:** `#/13` (skills · deck-stats live)
+- **Type:** `/context`  → **say the main-context number out loud** (e.g. "~35k")
+- **Then type:** `/deck-stats`  → it runs
+- **Then type:** `/context` again → **say the new number** (e.g. "~36k — barely moved")
+- **Say:** "Important: deck-stats did NOT do nothing. It read all 47 slide files — that's
+  30–40k tokens of work. But `context: fork` ran all of it in a SEPARATE context, and only
+  the small stats table came back. If I'd read those 47 files myself in this chat, all 40k
+  would be stuck in my window forever — re-read on every later turn. The fork spent the
+  tokens *there* and handed me only the answer."
+- **Watch for:** the gap between "big work done" and "tiny context growth". That IS the
+  subagent economics, proven in one number. (If someone thinks the skill did nothing —
+  it did a lot; the heavy part just lives in the fork, not here.)
 
 ### Step 4 — Hooks are a guarantee, not a hope
-- **Slide:** hooks section (`#/23`–`#/27`)
-- **Type:** `/hooks`  (show the three project hooks)
+- **Slide:** `#/26` (hooks · this repo)
+- **Type:** `/hooks`
+- **Heads-up:** `/hooks` lists hooks from **every source** — so you'll see MORE than our
+  three (plugins like caveman add SessionStart/UserPromptSubmit; there may be global ones
+  too). **Our project hooks are exactly 3**, all in `.claude/settings.json`:
+  PostToolUse typecheck, PreToolUse git-push block, Stop beep. Point at those three.
 - **Then:** make any small edit to a `.tsx` file and save.
 - **Say:** "typecheck runs after every edit because a hook says so — not because I
   remembered. And `git push` is physically blocked by a PreToolUse hook. It's code, not
@@ -71,22 +85,29 @@ presenter runs it on stage and keeps control.
 - **Watch for:** the typecheck status message firing on the edit; the git-push deny.
 
 ### Step 5 — feature-forge SOLO (baseline)
-- **Slide:** agents section (forge comparison)
+- **Slide:** `#/22` (agents · forge solo vs subagents)
 - **Type:** `/feature-forge-solo` → Tab → `section filter dropdown in the footer` → Enter
-- **Let it reach the DESIGN phase, then type:** `/context`
-- **Say:** "Same feature, no subagents. The DESIGN exploration happens inline, in THIS
-  context. Remember this `/context` number."
-- **Watch for:** the DESIGN work piling into the main context. Note the number out loud.
+- **IMPORTANT — when to measure:** the moment **DESIGN (Phase 2) finishes** — i.e. the 3
+  alternatives have been generated — type `/context`. Do NOT wait for the whole forge to
+  end (BUILD/FINALIZE); by then the contexts converge and the difference washes out. You
+  only need DESIGN. After measuring you can stop the run ("stop here, thanks").
+- **Type at that point:** `/context`
+- **Say:** "Same feature, no subagents. The DESIGN exploration happened inline, in THIS
+  context. Remember this number."
+- **Watch for:** the DESIGN work piling into the main context. Say the number out loud.
 
 ### Step 6 — feature-forge WITH subagents (the contrast)
-- **Slide:** agents · fan-out (`#/22` region)
+- **Slide:** `#/21`–`#/22` (agents · fan-out, then the comparison)
+- **Tip:** run this in a **fresh chat** (or `/clear` first) so the solo run's tokens don't
+  skew the comparison.
 - **Type:** `/feature-forge` → Tab → `section filter dropdown in the footer` → Enter
-- **At the DESIGN phase it spawns parallel design-explorer subagents; then type:** `/context`
-- **Say:** "Same feature. Now DESIGN fans out to parallel subagents — each explores one
-  direction in its OWN context, and only the proposals come back. Compare this `/context`
-  to the solo run."
+- **Measure at the same point:** right after **DESIGN (Phase 2) finishes** — here it spawned
+  parallel design-explorer subagents — type `/context`. Same rule: don't wait for the end.
+- **Say:** "Same feature, measured at the same phase. Now DESIGN fanned out to parallel
+  subagents — each explored one direction in its OWN context, and only the proposals came
+  back. Compare this number to the solo run."
 - **Watch for:** main context stays leaner here despite doing MORE design work. That's the
-  subagent economics slide, live.
+  subagent-economics slide (`#/22`), live.
 
 ### Step 7 — Browser review via MCP (real, verified working)
 - **Slide:** MCP section (`#/36`–`#/43`, browser-reviewer)

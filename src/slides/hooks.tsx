@@ -225,8 +225,9 @@ export const hooksSlides: DeckSlide[] = [
           />
           <Note>
             They live in <Term>.claude/settings.json</Term> — committed to git, so{" "}
-            <strong>the whole team gets identical behavior</strong>. Let's inspect via{" "}
-            <Term>/hooks</Term>.
+            <strong>the whole team gets identical behavior</strong>. Inspect via{" "}
+            <Term>/hooks</Term> — it lists <em>every</em> source (plugins, global, skills), so
+            you'll see more than these; <strong>ours are exactly these 3</strong>.
           </Note>
         </>
       ),
@@ -252,8 +253,9 @@ export const hooksSlides: DeckSlide[] = [
           />
           <Note>
             Вони лежать у <Term>.claude/settings.json</Term> — закомічені в git, тож{" "}
-            <strong>уся команда має ідентичну поведінку</strong>. Подивимось через{" "}
-            <Term>/hooks</Term>.
+            <strong>уся команда має ідентичну поведінку</strong>. Дивись через{" "}
+            <Term>/hooks</Term> — він показує <em>усі</em> джерела (плагіни, глобальні, скіли),
+            тож побачиш більше; <strong>наших — рівно ці 3</strong>.
           </Note>
         </>
       ),
