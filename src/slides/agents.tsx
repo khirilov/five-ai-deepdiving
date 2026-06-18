@@ -382,10 +382,17 @@ model: sonnet                        # дешевше за opus, для ауди
               />
             </Col>
           </Cols>
+          <FieldTable
+            headers={["DESIGN phase · ~footer section-filter feature", "Main context after"]}
+            rows={[
+              { field: "solo — 3 alternatives explored inline", meaning: "+15–20k stays in your window (all the design chatter)" },
+              { field: "subagents — 3 forks explore in parallel", meaning: "+2–3k returns (just the proposals); ~45k spent in forks, then dropped" },
+            ]}
+          />
           <Note>
-            Demo: run both modes and compare <Term>/context</Term>. Quick version of the same
-            experiment: <Term>/deck-review</Term> vs <Term>/deck-review --solo</Term> — 7 parallel
-            slide reviewers (on haiku) vs one inline pass.
+            More total tokens with subagents (3 separate contexts), but your <em>main</em> window
+            stays lean — that's what every later turn re-reads. Demo: run both, compare{" "}
+            <Term>/context</Term>. (Rough figures — read the real ones off <Term>/context</Term> on stage.)
           </Note>
         </>
       ),
@@ -416,10 +423,17 @@ model: sonnet                        # дешевше за opus, для ауди
               />
             </Col>
           </Cols>
+          <FieldTable
+            headers={["Фаза DESIGN · ~фіча «фільтр секцій» у футері", "Головний контекст після"]}
+            rows={[
+              { field: "solo — 3 варіанти інлайн", meaning: "+15–20k лишається у твоєму вікні (вся дизайн-балаканина)" },
+              { field: "субагенти — 3 форки паралельно", meaning: "+2–3k повертається (лише пропозиції); ~45k витрачено у форках і скинуто" },
+            ]}
+          />
           <Note>
-            Демо: запусти обидва режими й порівняй <Term>/context</Term>. Швидка версія того ж
-            експерименту: <Term>/deck-review</Term> vs <Term>/deck-review --solo</Term> — 7
-            паралельних рев'юерів слайдів (на haiku) vs один інлайн-прохід.
+            З субагентами токенів більше загалом (3 окремі контексти), але твоє <em>головне</em>
+            вікно лишається чистим — а саме його перечитує кожен наступний хід. Демо: запусти обидва,
+            порівняй <Term>/context</Term>. (Цифри приблизні — реальні зчитай із <Term>/context</Term> на сцені.)
           </Note>
         </>
       ),
