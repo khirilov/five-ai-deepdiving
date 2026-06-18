@@ -104,6 +104,34 @@ body {
   border-color: var(--accent);
 }
 
+.lang-switch {
+  display: inline-flex;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-right: 0.4em;
+}
+
+.lang-switch button {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  padding: 0.15em 0.6em;
+  font-size: 0.82em;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.lang-switch button:hover {
+  color: var(--accent);
+}
+
+.lang-switch button.active {
+  background: var(--accent);
+  color: var(--bg);
+  cursor: default;
+}
+
 /* --- slide content --- */
 
 .slide-header .kicker {

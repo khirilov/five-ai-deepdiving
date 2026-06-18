@@ -1,5 +1,27 @@
 import { useCallback, useEffect, useState } from "react";
 import { deck } from "./slides";
+import type { Lang } from "./types";
+
+const LANG_KEY = "deck-lang";
+
+function readLangFromStorage(): Lang {
+  const stored = window.localStorage.getItem(LANG_KEY);
+  return stored === "uk" ? "uk" : "en";
+}
+
+function useLang() {
+  const [lang, setLang] = useState<Lang>(() => readLangFromStorage());
+
+  const toggle = useCallback(() => {
+    setLang((current) => {
+      const next = current === "en" ? "uk" : "en";
+      window.localStorage.setItem(LANG_KEY, next);
+      return next;
+    });
+  }, []);
+
+  return { lang, toggle };
+}
 
 function readSlideFromHash(total: number): number {
   const parsed = Number(window.location.hash.replace(/^#\/?/, ""));
@@ -73,6 +95,7 @@ function useDeckNavigation(total: number) {
 
 export function App() {
   const { index, goTo } = useDeckNavigation(deck.length);
+  const { lang, toggle } = useLang();
   const slide = deck[index];
 
   return (
@@ -81,12 +104,30 @@ export function App() {
         className="deck-progress"
         style={{ width: `${((index + 1) / deck.length) * 100}%` }}
       />
-      <main key={slide.id} className="slide">
-        {slide.content}
+      <main key={`${slide.id}-${lang}`} className="slide">
+        {slide.content[lang]}
       </main>
       <footer className="deck-footer">
         <span className="deck-section">{slide.section}</span>
         <span className="deck-controls">
+          <span className="lang-switch" role="group" aria-label="Language">
+            <button
+              type="button"
+              className={lang === "en" ? "active" : ""}
+              onClick={lang === "en" ? undefined : toggle}
+              aria-pressed={lang === "en"}
+            >
+              EN
+            </button>
+            <button
+              type="button"
+              className={lang === "uk" ? "active" : ""}
+              onClick={lang === "uk" ? undefined : toggle}
+              aria-pressed={lang === "uk"}
+            >
+              UA
+            </button>
+          </span>
           <button type="button" onClick={() => goTo(index - 1)} aria-label="Previous slide">
             ←
           </button>
