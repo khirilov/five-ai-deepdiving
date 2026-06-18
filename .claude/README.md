@@ -47,6 +47,13 @@ slides (the React app in `src/`) talk about is actually configured here and show
   `user-invocable`. Open it on stage and point at each field. Example hooks for
   `test`/`lint`/`typecheck` (not active here — no test runner by design) live in
   `.claude/hooks-examples.jsonc`.
+- **`/demo-driver [start-step]`** — the stage teleprompter: walks the presenter through the
+  7 live demos one step at a time (slide link → command to type → what to say → what the
+  audience should notice), waiting for "next" between steps. Guide mode: it shows the cue,
+  the presenter runs the command and keeps stage control (`allowed-tools: Read`, never runs
+  the demo itself). Manual-only (`disable-model-invocation: true`). Script: grill-me →
+  frontmatter-showcase → deck-stats fork → /hooks → feature-forge-solo vs feature-forge
+  (same feature: a section-filter dropdown) → browser-reviewer.
 
 ## Why some things are commands and others are subagents
 
